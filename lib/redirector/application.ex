@@ -5,6 +5,10 @@ defmodule Redirector.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
+    :logger.add_handler(:my_sentry_handler, Sentry.LoggerHandler, %{
+      config: %{metadata: [:file, :line]}
+    })
+
     # Define workers and child supervisors to be supervised
     children = [
       # Start the endpoint when the application starts

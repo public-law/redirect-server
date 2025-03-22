@@ -35,3 +35,8 @@ config :logger, :console, format: "[$level] $message\n"
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+config :sentry,
+  dsn: "https://8b0a693ecfba28645664bd67bbb6682a@o118555.ingest.us.sentry.io/4509020028469248",
+  environment_name: Mix.env(),
+  enable_source_code_context: true,
+  root_source_code_paths: [File.cwd!()]
