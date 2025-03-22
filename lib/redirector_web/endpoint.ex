@@ -1,4 +1,5 @@
 defmodule RedirectorWeb.Endpoint do
+  use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :redirector
 
   socket("/socket", RedirectorWeb.UserSocket,
@@ -32,6 +33,8 @@ defmodule RedirectorWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Jason
   )
+
+  plug(Sentry.PlugContext)
 
   plug(Plug.MethodOverride)
   plug(Plug.Head)
