@@ -34,6 +34,7 @@ defmodule Redirector.Mixfile do
     [
       {:credo, ">= 1.6.5", only: [:dev]},
       {:dialyxir, ">= 1.0.0", only: [:dev], runtime: false},
+      {:hackney, "~> 1.8"},
       {:phoenix, "> 1.6.0"},
       {:phoenix_view, ">= 1.0.0"},
       {:gettext, ">= 0.11.0"},
@@ -43,7 +44,8 @@ defmodule Redirector.Mixfile do
       {:plug, ">= 1.7.0"},
       {:host, ">= 1.0.0"},
       {:cors_plug, ">= 1.5.0"},
-      {:jason, ">= 1.0.0"},
+      {:jason, "~> 1.2"},
+      {:sentry, "~> 10.2.0"},
       {:yaml_elixir, ">= 2.8.0"}
     ]
   end
