@@ -34,10 +34,9 @@ defmodule Redirector.Mixfile do
     [
       {:credo, ">= 1.6.5", only: [:dev]},
       {:dialyxir, ">= 1.0.0", only: [:dev], runtime: false},
-      {:hackney, "~> 1.8"},
+      {:hackney, ">= 1.8.0"},
       {:phoenix, "> 1.6.0"},
       {:phoenix_view, ">= 1.0.0"},
-      {:gettext, ">= 0.11.0"},
       {:httpoison, ">= 1.8.1"},
       {:memoize, ">= 1.4.0"},
       {:plug_cowboy, ">= 2.1.0"},

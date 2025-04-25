@@ -22,21 +22,20 @@ defmodule RedirectorWeb do
       use Phoenix.Controller, namespace: RedirectorWeb
       import Plug.Conn
       import RedirectorWeb.Router.Helpers
-      import RedirectorWeb.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/redirector_web/templates",
-                        namespace: RedirectorWeb
+      use Phoenix.View,
+        root: "lib/redirector_web/templates",
+        namespace: RedirectorWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
       import RedirectorWeb.Router.Helpers
       import RedirectorWeb.ErrorHelpers
-      import RedirectorWeb.Gettext
     end
   end
 
@@ -51,7 +50,6 @@ defmodule RedirectorWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import RedirectorWeb.Gettext
     end
   end
 
