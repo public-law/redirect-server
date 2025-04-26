@@ -60,28 +60,36 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "#{@www_url}/dictionary/entries/#{fixed_up_phrase}")
   end
 
+
   def glossary_root(conn, _), do: perm_redirect(conn, to: "#{@www_url}/dictionary")
 
   #
   # Other
   #
 
+
   def ors_volume(conn, %{"number" => number}) do
     perm_redirect(conn, to: "#{@opl_url}/statutes/ors_volume_#{number}")
   end
+
+
 
   def ors_chapter(conn, %{"number" => number}) do
     perm_redirect(conn, to: "#{@opl_url}/statutes/ors_chapter_#{number}")
   end
 
+
   def ors_section(conn, %{"number" => number}) do
     perm_redirect(conn, to: "#{@opl_url}/statutes/ors_#{number}")
   end
 
+
+  @spec ors_search(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def ors_search(conn, %{"search" => term, "page" => page}) do
     query = URI.encode_query(%{page: page, term: term})
     perm_redirect(conn, to: "#{@opl_url}/search?#{query}")
   end
+
 
   def ors_search(conn, %{"search" => term}) do
     query = URI.encode_query(%{term: term})

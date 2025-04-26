@@ -59,7 +59,7 @@ config :logger, level: :info
 #     config :redirector, RedirectorWeb.Endpoint, server: true
 #
 config :sentry,
-  dsn: "https://8b0a693ecfba28645664bd67bbb6682a@o118555.ingest.us.sentry.io/4509020028469248",
+  dsn: "https://c245b22767845d9ff4428ae2bbea9bbf@o118555.ingest.us.sentry.io/4509217295106048",
   environment_name: Mix.env(),
   enable_source_code_context: true,
   root_source_code_paths: [File.cwd!()]
