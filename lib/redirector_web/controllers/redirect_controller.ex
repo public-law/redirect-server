@@ -90,7 +90,6 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "#{@opl_url}/search?#{query}")
   end
 
-
   def ors_search(conn, %{"search" => term}) do
     query = URI.encode_query(%{term: term})
     perm_redirect(conn, to: "#{@opl_url}/search?#{query}")
@@ -101,7 +100,7 @@ defmodule RedirectorWeb.RedirectController do
   #
 
   def root(conn = %{host: "www.oregonlaws.org"}, _), do: perm_redirect(conn, to: @opl_url)
-  def root(conn = %{host: "oregonlaws.org"}, _), do: perm_redirect(conn, to: @opl_url)
+  def root(conn = %{host: "oregonlaws.org"}, _),     do: perm_redirect(conn, to: @opl_url)
   def root(conn, _), do: perm_redirect(conn, to: "#{@www_url}")
 
   #
