@@ -11,8 +11,8 @@ defmodule RedirectorWeb.ApiController do
     |> send_resp(200, inspect(conn))
   end
 
-  @spec is_preferred_visitor(Plug.Conn.t(), any()) :: Plug.Conn.t()
-  def is_preferred_visitor(conn, _params) do
+  @spec preferred_visitor?(Plug.Conn.t(), any()) :: Plug.Conn.t()
+  def preferred_visitor?(conn, _params) do
     {remote_ip, remote_domain} = remote_info(conn)
 
     answer =
@@ -25,7 +25,7 @@ defmodule RedirectorWeb.ApiController do
       Jason.encode!(%{
         "remote_ip" => remote_ip,
         "remote_domain" => remote_domain,
-        "is_preferred_visitor" => answer
+        "preferred_visitor?" => answer
       })
 
     Logger.info(fn -> "#{json_content}" end)
