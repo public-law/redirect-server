@@ -5,16 +5,7 @@ defmodule RedirectorWeb.Router do
     plug(:accepts, ["html", "json"])
   end
 
-  pipeline :api do
-    plug(:accepts, ["json"])
-  end
 
-  scope "/api", RedirectorWeb do
-    pipe_through(:api)
-
-    get("/is_preferred_visitor", ApiController, :preferred_visitor?)
-    get("/debug", ApiController, :debug)
-  end
 
   scope "/", RedirectorWeb do
     pipe_through(:redirects)
