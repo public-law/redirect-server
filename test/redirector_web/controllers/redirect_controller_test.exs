@@ -129,7 +129,7 @@ defmodule RedirectorWeb.RedirectControllerTest do
     conn = get(conn, "/robb/feed/")
 
     assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://dogsnog.blog/feed/"]
+    assert get_resp_header(conn, "location") == ["https://dogweather.dev/feed/"]
   end
 
   #
