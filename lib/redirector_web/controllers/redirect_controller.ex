@@ -3,8 +3,8 @@ defmodule RedirectorWeb.RedirectController do
 
   @collection_names %{
     "california" => "codes",
-    "newyork" => "laws",
-    "texas" => "statutes"
+    "newyork"    => "laws",
+    "texas"      => "statutes"
   }
 
   @opl_url "https://oregon.public.law"
@@ -25,14 +25,14 @@ defmodule RedirectorWeb.RedirectController do
   # Blog
   #
 
-  def blog_feed(conn, _), do: perm_redirect(conn, to: "#{@blg_url}/feed/")
-  def rss(conn, _), do: perm_redirect(conn, to: "#{@blg_url}/rss")
-  def robb_blog_feed(conn, _), do: perm_redirect(conn, to: "https://dogsnog.blog/feed/")
+  def blog_feed(conn, _),      do: perm_redirect(conn, to: "#{@blg_url}/feed/")
+  def rss(conn, _),            do: perm_redirect(conn, to: "#{@blg_url}/rss")
+  def robb_blog_feed(conn, _), do: perm_redirect(conn, to: "https://dogweather.dev/feed/")
 
   def blog_page(conn, params) do
-    year = params["year"]
+    year  = params["year"]
     month = params["month"]
-    slug = params["slug"]
+    slug  = params["slug"]
 
     perm_redirect(conn, to: "#{@blg_url}/#{year}/#{month}/#{slug}")
   end
@@ -90,7 +90,6 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "#{@opl_url}/search?#{query}")
   end
 
-
   def ors_search(conn, %{"search" => term}) do
     query = URI.encode_query(%{term: term})
     perm_redirect(conn, to: "#{@opl_url}/search?#{query}")
@@ -101,7 +100,7 @@ defmodule RedirectorWeb.RedirectController do
   #
 
   def root(conn = %{host: "www.oregonlaws.org"}, _), do: perm_redirect(conn, to: @opl_url)
-  def root(conn = %{host: "oregonlaws.org"}, _), do: perm_redirect(conn, to: @opl_url)
+  def root(conn = %{host: "oregonlaws.org"}, _),     do: perm_redirect(conn, to: @opl_url)
   def root(conn, _), do: perm_redirect(conn, to: "#{@www_url}")
 
   #

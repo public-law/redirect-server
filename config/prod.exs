@@ -15,7 +15,7 @@ import Config
 # which you typically run after static files are built.
 config :redirector, RedirectorWeb.Endpoint,
   load_from_system_env: true,
-  url: [host: "example.com", port: 80],
+  url: [host: "oregonlaws.org", port: 80],
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Do not print debug messages in production
