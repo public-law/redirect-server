@@ -25,8 +25,8 @@ defmodule RedirectorWeb.RedirectController do
   # Blog
   #
 
-  def blog_feed(conn, _), do: perm_redirect(conn, to: "#{@blg_url}/feed/")
-  def rss(conn, _), do: perm_redirect(conn, to: "#{@blg_url}/rss")
+  def blog_feed(conn, _),      do: perm_redirect(conn, to: "#{@blg_url}/feed/")
+  def rss(conn, _),            do: perm_redirect(conn, to: "#{@blg_url}/rss")
   def robb_blog_feed(conn, _), do: perm_redirect(conn, to: "https://dogsnog.blog/feed/")
 
   def blog_page(conn, params) do
