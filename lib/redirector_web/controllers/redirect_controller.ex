@@ -126,6 +126,7 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
   end
 
+
   def old_format(conn, %{"segments" => [state, _collection, page]}) do
     domain = translate_state(state)
 
@@ -141,12 +142,22 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
   end
 
+
+  def old_format(conn, %{"segments" => ["california", "statutes"]}) do
+    domain = translate_state("california")
+    path   = @collection_names["california"]
+
+    perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
+  end
+
+
   defp translate_state(state) do
     case state do
       "new_york" -> "newyork"
       _ -> state
     end
   end
+
 
   defp perm_redirect(conn, to: url) do
     conn
