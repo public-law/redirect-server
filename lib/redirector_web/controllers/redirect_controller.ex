@@ -107,16 +107,16 @@ defmodule RedirectorWeb.RedirectController do
   # Weblaws.org Redirects
   #
 
-  def state(conn, %{"segments" => [state = "california" | tail]}),
+  def weblaws_state(conn, %{"segments" => [state = "california" | tail]}),
     do: do_state_redirect(conn, state, tail)
 
-  def state(conn, %{"segments" => [state = "new_york" | tail]}),
+  def weblaws_state(conn, %{"segments" => [state = "new_york" | tail]}),
     do: do_state_redirect(conn, state, tail)
 
-  def state(conn, %{"segments" => [state = "texas" | tail]}),
+  def weblaws_state(conn, %{"segments" => [state = "texas" | tail]}),
     do: do_state_redirect(conn, state, tail)
 
-  def state(conn, %{"segments" => segments}),
+  def weblaws_state(conn, %{"segments" => segments}),
     do: perm_redirect(conn, to: "#{@opl_url}/#{Enum.join(segments, "/")}")
 
   defp do_state_redirect(conn, state, segments) do
@@ -127,7 +127,7 @@ defmodule RedirectorWeb.RedirectController do
   end
 
 
-  def old_format(conn, %{"segments" => [state, _collection, page]}) do
+  def weblaws_old_format(conn, %{"segments" => [state, _collection, page]}) do
     domain = translate_state(state)
 
     corrected_page =
@@ -143,9 +143,9 @@ defmodule RedirectorWeb.RedirectController do
   end
 
 
-  def old_format(conn, %{"segments" => ["california", "statutes"]}) do
-    domain = translate_state("california")
-    path   = @collection_names["california"]
+  def weblaws_old_format(conn, %{"segments" => [state, _collection]}) do
+    domain = translate_state(state)
+    path   = @collection_names[state]
 
     perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
   end
