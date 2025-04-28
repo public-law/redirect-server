@@ -160,7 +160,6 @@ defmodule RedirectorWeb.RedirectController do
   end
 
 
-  @spec perm_redirect(Plug.Conn.t(), map()) :: Plug.Conn.t()
   defp perm_redirect(conn, to: url) do
     conn
     |> put_status(301)
