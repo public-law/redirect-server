@@ -151,6 +151,7 @@ defmodule RedirectorWeb.RedirectController do
   end
 
 
+  @spec translate_state(String.t()) :: String.t()
   defp translate_state(state) do
     case state do
       "new_york" -> "newyork"
@@ -159,6 +160,7 @@ defmodule RedirectorWeb.RedirectController do
   end
 
 
+  @spec perm_redirect(Plug.Conn.t(), map()) :: Plug.Conn.t()
   defp perm_redirect(conn, to: url) do
     conn
     |> put_status(301)
