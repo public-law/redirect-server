@@ -45,8 +45,8 @@ defmodule RedirectorWeb.Router do
     #
     # weblaws.org
     #
-    get("/states/*segments",            RedirectController, :old_format)
-    get("/*segments",                   RedirectController, :state)
+    get("/states/*segments",            RedirectController, :weblaws_old_format)
+    get("/*segments",                   RedirectController, :weblaws_state)
 
     # Bad requests
 
