@@ -171,8 +171,12 @@ defmodule RedirectorWeb.RedirectController do
 
 
   defp perm_redirect(conn, to: url) do
+    cleaned_url = url
+      |> String.replace(~r/[\r\n\x00]/, "")
+      |> String.trim()
+
     conn
     |> put_status(301)
-    |> redirect(external: url)
+    |> redirect(external: cleaned_url)
   end
 end
