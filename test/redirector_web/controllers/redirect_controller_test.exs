@@ -3,30 +3,15 @@ defmodule RedirectorWeb.RedirectControllerTest do
   Test the redirect function.
   """
   use RedirectorWeb.ConnCase
-
-  # Helper function to assert redirects
-  defp assert_redirect(conn, from, to) do
-    conn = get(conn, from)
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [to]
-  end
-
-  describe "Searches" do
-    test "An oregonlaws search", %{conn: conn} do
-      assert_redirect(conn, "/page?page=24&search=filing+fee", "https://oregon.public.law/search?term=filing+fee&page=24")
-    end
-
-    test "An oregonlaws search without page", %{conn: conn} do
-      assert_redirect(conn, "/page?search=probate", "https://oregon.public.law/search?term=probate")
-    end
-
-    test "An oregonlaws search with object filter", %{conn: conn} do
-      assert_redirect(conn, "/page?object_filter=36&page=15&search=access", "https://oregon.public.law/search?term=access&page=15")
-    end
-  end
+  import RedirectorWeb.TestHelpers, only: [assert_redirect: 3, define_redirect_tests: 2]
 
   # Define all the redirect test cases
   @redirects %{
+    searches: [
+      {"An oregonlaws search", "/page?page=24&search=filing+fee", "https://oregon.public.law/search?term=filing+fee&page=24"},
+      {"An oregonlaws search without page", "/page?search=probate", "https://oregon.public.law/search?term=probate"},
+      {"An oregonlaws search with object filter", "/page?object_filter=36&page=15&search=access", "https://oregon.public.law/search?term=access&page=15"}
+    ],
     general: [
       {"Catch-all for GET", "/statutes/ors_316.003", "https://oregon.public.law/statutes/ors_316.003"},
       {"Weird path with numbers", "/1/2/3/4/5.txt", "https://oregon.public.law/1/2/3/4/5.txt"},
@@ -68,29 +53,15 @@ defmodule RedirectorWeb.RedirectControllerTest do
     ]
   }
 
-  # Create tests for each group of redirects
-  describe "General redirects" do
-    for {name, from, to} <- @redirects.general do
-      @name name
-      @from from
-      @to to
-      test "#{@name}", %{conn: conn} do
-        assert_redirect(conn, @from, @to)
-      end
-    end
-  end
+  # Generate all the test cases from our redirect maps
+  define_redirect_tests "Searches",              @redirects.searches
+  define_redirect_tests "General redirects",     @redirects.general
+  define_redirect_tests "Blog redirects",        @redirects.blog
+  define_redirect_tests "Glossary redirects",    @redirects.glossary
+  define_redirect_tests "ORS redirects",         @redirects.ors
+  define_redirect_tests "Weblaws.org redirects", @redirects.weblaws
 
-  describe "Blog redirects" do
-    for {name, from, to} <- @redirects.blog do
-      @name name
-      @from from
-      @to to
-      test "#{@name}", %{conn: conn} do
-        assert_redirect(conn, @from, @to)
-      end
-    end
-  end
-
+  # Bad requests tests that don't fit the redirect pattern
   describe "Bad requests" do
     test "POST requests to root are 400", %{conn: conn} do
       conn = post(conn, "/")
@@ -100,39 +71,6 @@ defmodule RedirectorWeb.RedirectControllerTest do
     test "POST requests to a path are 400", %{conn: conn} do
       conn = post(conn, "/1")
       assert conn.status == 400
-    end
-  end
-
-  describe "Glossary redirects" do
-    for {name, from, to} <- @redirects.glossary do
-      @name name
-      @from from
-      @to to
-      test "#{@name}", %{conn: conn} do
-        assert_redirect(conn, @from, @to)
-      end
-    end
-  end
-
-  describe "ORS redirects" do
-    for {name, from, to} <- @redirects.ors do
-      @name name
-      @from from
-      @to to
-      test "#{@name}", %{conn: conn} do
-        assert_redirect(conn, @from, @to)
-      end
-    end
-  end
-
-  describe "Weblaws.org redirects" do
-    for {name, from, to} <- @redirects.weblaws do
-      @name name
-      @from from
-      @to to
-      test "#{@name}", %{conn: conn} do
-        assert_redirect(conn, @from, @to)
-      end
     end
   end
 end
