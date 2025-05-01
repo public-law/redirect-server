@@ -40,6 +40,7 @@ defmodule RedirectorWeb.RedirectControllerTest do
       {"Chapter request",           "/ors/chapter/6",             "https://oregon.public.law/statutes/ors_chapter_6"},
       {"Alternate chapter request", "/ors_chapters/352",          "https://oregon.public.law/statutes/ors_chapter_352"},
       {"Section request",           "/ors/123.456",               "https://oregon.public.law/statutes/ors_123.456"},
+      {"With LF tacked on",         "/ors/678.101%0A",            "https://oregon.public.law/statutes/ors_678.101"},
       {"Section with year",         "/ors/2007/497.040",          "https://oregon.public.law/statutes/ors_497.040"},
       {"Chapter with year",         "/ors/2013/chapter/777",      "https://oregon.public.law/statutes/ors_chapter_777"}
     ],
