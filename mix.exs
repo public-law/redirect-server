@@ -45,7 +45,8 @@ defmodule Redirector.Mixfile do
       {:cors_plug, ">= 1.5.0"},
       {:jason, "~> 1.2"},
       {:sentry, "~> 10.2.0"},
-      {:yaml_elixir, ">= 2.8.0"}
+      {:yaml_elixir, ">= 2.8.0"},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
 end
