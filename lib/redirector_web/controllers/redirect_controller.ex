@@ -95,6 +95,12 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "#{@opl_url}/search?#{query}")
   end
 
+  def ors_search(conn, _) do
+    perm_redirect(conn, to: "#{@opl_url}/search")
+  end
+
+
+
   #
   # Root path Redirects
   #
