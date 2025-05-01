@@ -142,12 +142,16 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
   end
 
-
   def weblaws_old_format(conn, %{"segments" => [state, _collection]}) do
     domain = translate_state(state)
     path   = @collection_names[state]
 
     perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
+  end
+
+  def weblaws_old_format(conn, %{"segments" => [state]}) do
+    domain = translate_state(state)
+    perm_redirect(conn, to: "https://#{domain}.public.law")
   end
 
 
