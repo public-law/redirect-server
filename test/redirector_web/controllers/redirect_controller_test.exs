@@ -30,36 +30,36 @@ defmodule RedirectorWeb.RedirectControllerTest do
     ],
     glossary: [
       {"Definition", "/glossary/definition/alternate_juror", "https://www.public.law/dictionary/entries/alternate-juror"},
-      {"Root", "/glossary", "https://www.public.law/dictionary"}
+      {"Root",       "/glossary",                            "https://www.public.law/dictionary"}
     ],
     ors: [
-      {"Home page", "http://www.oregonlaws.org/", "https://oregon.public.law"},
-      {"Statutes page", "/oregon_revised_statutes", "https://oregon.public.law/statutes"},
-      {"Volume request", "/ors/volume/6", "https://oregon.public.law/statutes/ors_volume_6"},
-      {"Chapter request", "/ors/chapter/6", "https://oregon.public.law/statutes/ors_chapter_6"},
-      {"Alternate chapter request", "/ors_chapters/352", "https://oregon.public.law/statutes/ors_chapter_352"},
-      {"Section request", "/ors/123.456", "https://oregon.public.law/statutes/ors_123.456"},
-      {"Section with year", "/ors/2007/497.040", "https://oregon.public.law/statutes/ors_497.040"},
-      {"Chapter with year", "/ors/2013/chapter/777", "https://oregon.public.law/statutes/ors_chapter_777"}
+      {"Home page",                 "http://www.oregonlaws.org/", "https://oregon.public.law"},
+      {"Statutes page",             "/oregon_revised_statutes",   "https://oregon.public.law/statutes"},
+      {"Volume request",            "/ors/volume/6",              "https://oregon.public.law/statutes/ors_volume_6"},
+      {"Chapter request",           "/ors/chapter/6",             "https://oregon.public.law/statutes/ors_chapter_6"},
+      {"Alternate chapter request", "/ors_chapters/352",          "https://oregon.public.law/statutes/ors_chapter_352"},
+      {"Section request",           "/ors/123.456",               "https://oregon.public.law/statutes/ors_123.456"},
+      {"Section with year",         "/ors/2007/497.040",          "https://oregon.public.law/statutes/ors_497.040"},
+      {"Chapter with year",         "/ors/2013/chapter/777",      "https://oregon.public.law/statutes/ors_chapter_777"}
     ],
     weblaws: [
-      {"New York state page", "http://www.weblaws.org/states/new_york", "https://newyork.public.law"},
-      {"Root to www.public.law", "http://www.weblaws.org/", "https://www.public.law"},
-      {"Texas election code", "/texas/statutes/tex._election_code", "https://texas.public.law/statutes/tex._election_code"},
-      {"New York dwelling law", "/new_york/laws/n.y._multiple_dwelling_law_section_2", "https://newyork.public.law/laws/n.y._multiple_dwelling_law_section_2"},
-      {"California highway code", "/california/codes/ca_sts_and_high_code_div_1_chap_1.5", "https://california.public.law/codes/ca_sts_and_high_code_div_1_chap_1.5"},
-      {"Old-style California redirect", "/states/california/statutes/ca_penal_section_459", "https://california.public.law/codes/ca_penal_code_section_459"},
-      {"California statutes", "/states/california/statutes", "https://california.public.law/codes"}
+      {"New York state page",           "http://www.weblaws.org/states/new_york",                "https://newyork.public.law"},
+      {"Root to www.public.law",        "http://www.weblaws.org/",                               "https://www.public.law"},
+      {"Texas election code",           "/texas/statutes/tex._election_code",                    "https://texas.public.law/statutes/tex._election_code"},
+      {"New York dwelling law",         "/new_york/laws/n.y._multiple_dwelling_law_section_2",   "https://newyork.public.law/laws/n.y._multiple_dwelling_law_section_2"},
+      {"California highway code",       "/california/codes/ca_sts_and_high_code_div_1_chap_1.5", "https://california.public.law/codes/ca_sts_and_high_code_div_1_chap_1.5"},
+      {"Old-style California redirect", "/states/california/statutes/ca_penal_section_459",      "https://california.public.law/codes/ca_penal_code_section_459"},
+      {"California statutes",           "/states/california/statutes",                           "https://california.public.law/codes"}
     ]
   }
 
   # Generate all the test cases from our redirect maps
-  define_redirect_tests "Searches",              @redirects.searches
-  define_redirect_tests "General redirects",     @redirects.general
-  define_redirect_tests "Blog redirects",        @redirects.blog
-  define_redirect_tests "Glossary redirects",    @redirects.glossary
-  define_redirect_tests "ORS redirects",         @redirects.ors
-  define_redirect_tests "Weblaws.org redirects", @redirects.weblaws
+  define_redirect_tests "Searches",                 @redirects.searches
+  define_redirect_tests "General redirects",        @redirects.general
+  define_redirect_tests "Blog redirects",           @redirects.blog
+  define_redirect_tests "Glossary redirects",       @redirects.glossary
+  define_redirect_tests "Oregonlaws.org redirects", @redirects.ors
+  define_redirect_tests "Weblaws.org redirects",    @redirects.weblaws
 
   # Bad requests tests that don't fit the redirect pattern
   describe "Bad requests" do
