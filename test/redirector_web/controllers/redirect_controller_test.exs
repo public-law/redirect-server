@@ -255,6 +255,14 @@ defmodule RedirectorWeb.RedirectControllerTest do
   # Weblaws.org Redirects
   #
 
+  test "http://www.weblaws.org/states/new_york", %{conn: conn} do
+    conn = get(conn, "http://www.weblaws.org/states/new_york")
+
+    assert conn.status == 301
+    assert get_resp_header(conn, "location") == ["https://newyork.public.law"]
+  end
+
+
   test "redirect_root/2 sends to www.public.law", %{conn: conn} do
     conn = get(conn, "http://www.weblaws.org/")
 
