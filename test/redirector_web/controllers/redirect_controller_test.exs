@@ -10,7 +10,8 @@ defmodule RedirectorWeb.RedirectControllerTest do
     searches: [
       {"An oregonlaws search",                    "/page?page=24&search=filing+fee",              "https://oregon.public.law/search?term=filing+fee&page=24"},
       {"An oregonlaws search without page",       "/page?search=probate",                         "https://oregon.public.law/search?term=probate"},
-      {"An oregonlaws search with object filter", "/page?object_filter=36&page=15&search=access", "https://oregon.public.law/search?term=access&page=15"}
+      {"An oregonlaws search with object filter", "/page?object_filter=36&page=15&search=access", "https://oregon.public.law/search?term=access&page=15"},
+      {"A broken search",                         "/page",                                        "https://oregon.public.law/search"}
     ],
     general: [
       {"Catch-all for GET",       "/statutes/ors_316.003", "https://oregon.public.law/statutes/ors_316.003"},
