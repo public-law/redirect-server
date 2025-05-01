@@ -165,7 +165,7 @@ defmodule RedirectorWeb.RedirectController do
   defp translate_state(state) do
     case state do
       "new_york" -> "newyork"
-      _ -> state
+      _          -> state
     end
   end
 
