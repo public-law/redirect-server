@@ -8,25 +8,25 @@ defmodule RedirectorWeb.RedirectControllerTest do
   # Define all the redirect test cases
   @redirects %{
     searches: [
-      {"An oregonlaws search", "/page?page=24&search=filing+fee", "https://oregon.public.law/search?term=filing+fee&page=24"},
-      {"An oregonlaws search without page", "/page?search=probate", "https://oregon.public.law/search?term=probate"},
+      {"An oregonlaws search",                    "/page?page=24&search=filing+fee",              "https://oregon.public.law/search?term=filing+fee&page=24"},
+      {"An oregonlaws search without page",       "/page?search=probate",                         "https://oregon.public.law/search?term=probate"},
       {"An oregonlaws search with object filter", "/page?object_filter=36&page=15&search=access", "https://oregon.public.law/search?term=access&page=15"}
     ],
     general: [
-      {"Catch-all for GET", "/statutes/ors_316.003", "https://oregon.public.law/statutes/ors_316.003"},
-      {"Weird path with numbers", "/1/2/3/4/5.txt", "https://oregon.public.law/1/2/3/4/5.txt"},
-      {"Single word path", "/robb", "https://oregon.public.law/robb"},
-      {"Older volume path", "/ors/2011/volume/14", "https://oregon.public.law/ors/2011/volume/14"},
-      {"Sign-in page", "/users/sign_in", "https://oregon.public.law/users/sign_in"},
-      {"Ads.txt file", "/ads.txt", "https://oregon.public.law/ads.txt"},
-      {"Sitemap file", "/sitemap.xml.gz", "https://oregon.public.law/sitemaps/sitemap.xml.gz"}
+      {"Catch-all for GET",       "/statutes/ors_316.003", "https://oregon.public.law/statutes/ors_316.003"},
+      {"Weird path with numbers", "/1/2/3/4/5.txt",        "https://oregon.public.law/1/2/3/4/5.txt"},
+      {"Single word path",        "/robb",                 "https://oregon.public.law/robb"},
+      {"Older volume path",       "/ors/2011/volume/14",   "https://oregon.public.law/ors/2011/volume/14"},
+      {"Sign-in page",            "/users/sign_in",        "https://oregon.public.law/users/sign_in"},
+      {"Ads.txt file",            "/ads.txt",              "https://oregon.public.law/ads.txt"},
+      {"Sitemap file",            "/sitemap.xml.gz",       "https://oregon.public.law/sitemaps/sitemap.xml.gz"}
     ],
     blog: [
-      {"Blog page", "/blog/2009/08/how-does-oregonlawsorg-work", "https://blog.public.law/2009/08/how-does-oregonlawsorg-work"},
-      {"Blog feed", "/blog/feed/", "https://blog.public.law/feed/"},
-      {"Blog RSS", "/rss", "https://blog.public.law/rss"},
-      {"Robb's blog feed", "/robb/feed/", "https://dogweather.dev/feed/"},
-      {"Simple page", "/robots.txt", "https://oregon.public.law/robots.txt"}
+      {"Blog page",        "/blog/2009/08/how-does-oregonlawsorg-work", "https://blog.public.law/2009/08/how-does-oregonlawsorg-work"},
+      {"Blog feed",        "/blog/feed/",                               "https://blog.public.law/feed/"},
+      {"Blog RSS",         "/rss",                                      "https://blog.public.law/rss"},
+      {"Robb's blog feed", "/robb/feed/",                               "https://dogweather.dev/feed/"},
+      {"Simple page",      "/robots.txt",                               "https://oregon.public.law/robots.txt"}
     ],
     glossary: [
       {"Definition", "/glossary/definition/alternate_juror", "https://www.public.law/dictionary/entries/alternate-juror"},
