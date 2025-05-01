@@ -3,307 +3,76 @@ defmodule RedirectorWeb.RedirectControllerTest do
   Test the redirect function.
   """
   use RedirectorWeb.ConnCase
-
-  #
-  # Searches
-  #
-  test "An oregonlaws search", %{conn: conn} do
-    conn = get(conn, "/page?page=24&search=filing+fee")
-    expected = "https://oregon.public.law/search?term=filing+fee&page=24"
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [expected]
-  end
-
-
-  test "An oregonlaws search without page", %{conn: conn} do
-    conn = get(conn, "/page?search=probate")
-    expected = "https://oregon.public.law/search?term=probate"
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [expected]
-  end
-
-
-  test "An oregonlaws search with object filter", %{conn: conn} do
-    conn = get(conn, "/page?object_filter=36&page=15&search=access")
-    expected = "https://oregon.public.law/search?term=access&page=15"
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [expected]
-  end
-
-
-  #
-  # General
-  #
-
-  test "Catch-all for GET", %{conn: conn} do
-    conn = get(conn, "/statutes/ors_316.003")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/statutes/ors_316.003"]
-  end
-
-
-  test "Catch-all works with weird stuff", %{conn: conn} do
-    conn = get(conn, "/1/2/3/4/5.txt")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/1/2/3/4/5.txt"]
-  end
-
-
-  test "Catch-all works with just one word", %{conn: conn} do
-    conn = get(conn, "/robb")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/robb"]
-  end
-
-
-  test "Catch-all works with older volume path", %{conn: conn} do
-    conn = get(conn, "/ors/2011/volume/14")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/ors/2011/volume/14"]
-  end
-
-
-  test "Sign-in goes to the new site", %{conn: conn} do
-    conn = get(conn, "/users/sign_in")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/users/sign_in"]
-  end
-
-
-  test "ads.txt goes to new site", %{conn: conn} do
-    conn = get(conn, "/ads.txt")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/ads.txt"]
-  end
-
-
-  test "Sitemap goes to new site", %{conn: conn} do
-    conn = get(conn, "/sitemap.xml.gz")
-
-    assert conn.status == 301
-
-    assert get_resp_header(conn, "location") == [
-             "https://oregon.public.law/sitemaps/sitemap.xml.gz"
-           ]
-  end
-
-
-  #
-  # Blog
-  #
-
-  test "Blog page goes to the correct site", %{conn: conn} do
-    conn = get(conn, "/blog/2009/08/how-does-oregonlawsorg-work")
-
-    assert conn.status == 301
-
-    assert get_resp_header(conn, "location") == [
-             "https://blog.public.law/2009/08/how-does-oregonlawsorg-work"
-           ]
-  end
-
-  test "Blog feed goes to new blog location", %{conn: conn} do
-    conn = get(conn, "/blog/feed/")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://blog.public.law/feed/"]
-  end
-
-  test "Blog rss", %{conn: conn} do
-    conn = get(conn, "/rss")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://blog.public.law/rss"]
-  end
-
-  test "Robb's blog feed goes to new blog location", %{conn: conn} do
-    conn = get(conn, "/robb/feed/")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://dogweather.dev/feed/"]
-  end
-
-  #
-  # Other
-  #
-
-  test "A simple page redirect", %{conn: conn} do
-    conn = get(conn, "/robots.txt")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/robots.txt"]
-  end
-
-  #
-  # Bad requests
-  #
-  test "POST requests to root are 400", %{conn: conn} do
-    conn = post(conn, "/")
-
-    assert conn.status == 400
-  end
-
-  test "POST requests to a path are 400", %{conn: conn} do
-    conn = post(conn, "/1")
-
-    assert conn.status == 400
-  end
-
-  #
-  # Glossary Redirects
-  #
-
-  test "Glossary redirects", %{conn: conn} do
-    conn = get(conn, "/glossary/definition/alternate_juror")
-
-    assert conn.status == 301
-
-    assert get_resp_header(conn, "location") == [
-             "https://www.public.law/dictionary/entries/alternate-juror"
-           ]
-  end
-
-  test "Glossary root", %{conn: conn} do
-    conn = get(conn, "/glossary")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://www.public.law/dictionary"]
-  end
-
-  #
-  # ORS Redirects
-  #
-
-  test "ORS home page goes to the right place", %{conn: conn} do
-    conn = get(conn, "http://www.oregonlaws.org/")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law"]
-  end
-
-  test "ORS statutes goes to the right place", %{conn: conn} do
-    conn = get(conn, "/oregon_revised_statutes")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/statutes"]
-  end
-
-  test "ORS Volume request", %{conn: conn} do
-    conn = get(conn, "/ors/volume/6")
-
-    assert conn.status == 301
-
-    assert get_resp_header(conn, "location") == [
-             "https://oregon.public.law/statutes/ors_volume_6"
-           ]
-  end
-
-  test "ORS Chapter request", %{conn: conn} do
-    conn = get(conn, "/ors/chapter/6")
-
-    assert conn.status == 301
-
-    assert get_resp_header(conn, "location") == [
-             "https://oregon.public.law/statutes/ors_chapter_6"
-           ]
-  end
-
-  test "Alternate ORS Chapter request", %{conn: conn} do
-    conn = get(conn, "/ors_chapters/352")
-
-    assert conn.status == 301
-
-    assert get_resp_header(conn, "location") == [
-             "https://oregon.public.law/statutes/ors_chapter_352"
-           ]
-  end
-
-  test "ORS Section request", %{conn: conn} do
-    conn = get(conn, "/ors/123.456")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/statutes/ors_123.456"]
-  end
-
-  test "ORS Section with year", %{conn: conn} do
-    conn = get(conn, "/ors/2007/497.040")
-
-    assert(conn.status == 301)
-    assert get_resp_header(conn, "location") == ["https://oregon.public.law/statutes/ors_497.040"]
-  end
-
-  test "ORS Chapter with year", %{conn: conn} do
-    conn = get(conn, "/ors/2013/chapter/777")
-
-    assert(conn.status == 301)
-
-    assert get_resp_header(conn, "location") == [
-             "https://oregon.public.law/statutes/ors_chapter_777"
-           ]
-  end
-
-  #
-  # Weblaws.org Redirects
-  #
-
-  test "redirect_root/2 sends to www.public.law", %{conn: conn} do
-    conn = get(conn, "http://www.weblaws.org/")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [
-             "https://www.public.law"
-           ]
-  end
-
-  test "basic state redirect", %{conn: conn} do
-    conn = get(conn, "/texas/statutes/tex._election_code")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [
-             "https://texas.public.law/statutes/tex._election_code"
-           ]
-  end
-
-  test "leaf node New York redirect", %{conn: conn} do
-    conn = get(conn, "/new_york/laws/n.y._multiple_dwelling_law_section_2")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [
-             "https://newyork.public.law/laws/n.y._multiple_dwelling_law_section_2"
-           ]
-  end
-
-  test "leaf node California redirect", %{conn: conn} do
-    conn = get(conn, "/california/codes/ca_sts_and_high_code_div_1_chap_1.5")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [
-             "https://california.public.law/codes/ca_sts_and_high_code_div_1_chap_1.5"
-           ]
-  end
-
-  test "very old-style california redirect", %{conn: conn} do
-    conn = get(conn, "/states/california/statutes/ca_penal_section_459")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == [
-             "https://california.public.law/codes/ca_penal_code_section_459"
-           ]
-  end
-
-  test "http://www.weblaws.org/states/california/statutes", %{conn: conn} do
-    conn = get(conn, "/states/california/statutes")
-
-    assert conn.status == 301
-    assert get_resp_header(conn, "location") == ["https://california.public.law/codes"]
+  import RedirectorWeb.TestHelpers, only: [assert_redirect: 3, define_redirect_tests: 2]
+
+  # Define all the redirect test cases
+  @redirects %{
+    searches: [
+      {"An oregonlaws search",                    "/page?page=24&search=filing+fee",              "https://oregon.public.law/search?term=filing+fee&page=24"},
+      {"An oregonlaws search without page",       "/page?search=probate",                         "https://oregon.public.law/search?term=probate"},
+      {"An oregonlaws search with object filter", "/page?object_filter=36&page=15&search=access", "https://oregon.public.law/search?term=access&page=15"},
+      {"A broken search",                         "/page",                                        "https://oregon.public.law/search"}
+    ],
+    general: [
+      {"Catch-all for GET",       "/statutes/ors_316.003", "https://oregon.public.law/statutes/ors_316.003"},
+      {"Weird path with numbers", "/1/2/3/4/5.txt",        "https://oregon.public.law/1/2/3/4/5.txt"},
+      {"Single word path",        "/robb",                 "https://oregon.public.law/robb"},
+      {"Older volume path",       "/ors/2011/volume/14",   "https://oregon.public.law/ors/2011/volume/14"},
+      {"Sign-in page",            "/users/sign_in",        "https://oregon.public.law/users/sign_in"},
+      {"Ads.txt file",            "/ads.txt",              "https://oregon.public.law/ads.txt"},
+      {"Sitemap file",            "/sitemap.xml.gz",       "https://oregon.public.law/sitemaps/sitemap.xml.gz"}
+    ],
+    blog: [
+      {"Blog page",        "/blog/2009/08/how-does-oregonlawsorg-work", "https://blog.public.law/2009/08/how-does-oregonlawsorg-work"},
+      {"Blog feed",        "/blog/feed/",                               "https://blog.public.law/feed/"},
+      {"Blog RSS",         "/rss",                                      "https://blog.public.law/rss"},
+      {"Robb's blog feed", "/robb/feed/",                               "https://dogweather.dev/feed/"},
+      {"Simple page",      "/robots.txt",                               "https://oregon.public.law/robots.txt"}
+    ],
+    glossary: [
+      {"Definition", "/glossary/definition/alternate_juror", "https://www.public.law/dictionary/entries/alternate-juror"},
+      {"Root",       "/glossary",                            "https://www.public.law/dictionary"}
+    ],
+    ors: [
+      {"Home page",                 "http://www.oregonlaws.org/", "https://oregon.public.law"},
+      {"Statutes page",             "/oregon_revised_statutes",   "https://oregon.public.law/statutes"},
+      {"Volume request",            "/ors/volume/6",              "https://oregon.public.law/statutes/ors_volume_6"},
+      {"Chapter request",           "/ors/chapter/6",             "https://oregon.public.law/statutes/ors_chapter_6"},
+      {"Alternate chapter request", "/ors_chapters/352",          "https://oregon.public.law/statutes/ors_chapter_352"},
+      {"Section request",           "/ors/123.456",               "https://oregon.public.law/statutes/ors_123.456"},
+      {"With LF tacked on",         "/ors/678.101%0A",            "https://oregon.public.law/statutes/ors_678.101"},
+      {"Section with year",         "/ors/2007/497.040",          "https://oregon.public.law/statutes/ors_497.040"},
+      {"Chapter with year",         "/ors/2013/chapter/777",      "https://oregon.public.law/statutes/ors_chapter_777"}
+    ],
+    weblaws: [
+      {"New York state page",           "http://www.weblaws.org/states/new_york",                "https://newyork.public.law"},
+      {"Root to www.public.law",        "http://www.weblaws.org/",                               "https://www.public.law"},
+      {"Texas election code",           "/texas/statutes/tex._election_code",                    "https://texas.public.law/statutes/tex._election_code"},
+      {"New York dwelling law",         "/new_york/laws/n.y._multiple_dwelling_law_section_2",   "https://newyork.public.law/laws/n.y._multiple_dwelling_law_section_2"},
+      {"California highway code",       "/california/codes/ca_sts_and_high_code_div_1_chap_1.5", "https://california.public.law/codes/ca_sts_and_high_code_div_1_chap_1.5"},
+      {"Old-style California redirect", "/states/california/statutes/ca_penal_section_459",      "https://california.public.law/codes/ca_penal_code_section_459"},
+      {"California statutes",           "/states/california/statutes",                           "https://california.public.law/codes"}
+    ]
+  }
+
+  # Generate all the test cases from our redirect maps
+  define_redirect_tests "Searches",                 @redirects.searches
+  define_redirect_tests "General redirects",        @redirects.general
+  define_redirect_tests "Blog redirects",           @redirects.blog
+  define_redirect_tests "Glossary redirects",       @redirects.glossary
+  define_redirect_tests "Oregonlaws.org redirects", @redirects.ors
+  define_redirect_tests "Weblaws.org redirects",    @redirects.weblaws
+
+  # Bad requests tests that don't fit the redirect pattern
+  describe "Bad requests" do
+    test "POST requests to root are 400", %{conn: conn} do
+      conn = post(conn, "/")
+      assert conn.status == 400
+    end
+
+    test "POST requests to a path are 400", %{conn: conn} do
+      conn = post(conn, "/1")
+      assert conn.status == 400
+    end
   end
 end

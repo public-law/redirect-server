@@ -95,6 +95,12 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "#{@opl_url}/search?#{query}")
   end
 
+  def ors_search(conn, _) do
+    perm_redirect(conn, to: "#{@opl_url}/search")
+  end
+
+
+
   #
   # Root path Redirects
   #
@@ -142,7 +148,6 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
   end
 
-
   def weblaws_old_format(conn, %{"segments" => [state, _collection]}) do
     domain = translate_state(state)
     path   = @collection_names[state]
@@ -150,19 +155,28 @@ defmodule RedirectorWeb.RedirectController do
     perm_redirect(conn, to: "https://#{domain}.public.law/#{path}")
   end
 
+  def weblaws_old_format(conn, %{"segments" => [state]}) do
+    domain = translate_state(state)
+    perm_redirect(conn, to: "https://#{domain}.public.law")
+  end
+
 
   @spec translate_state(String.t()) :: String.t()
   defp translate_state(state) do
     case state do
       "new_york" -> "newyork"
-      _ -> state
+      _          -> state
     end
   end
 
 
   defp perm_redirect(conn, to: url) do
+    cleaned_url = url
+      |> String.replace(~r/[\r\n\x00]/, "")
+      |> String.trim()
+
     conn
     |> put_status(301)
-    |> redirect(external: url)
+    |> redirect(external: cleaned_url)
   end
 end
