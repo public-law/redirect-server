@@ -51,7 +51,8 @@ defmodule RedirectorWeb.RedirectControllerTest do
       {"New York dwelling law",         "/new_york/laws/n.y._multiple_dwelling_law_section_2",   "https://newyork.public.law/laws/n.y._multiple_dwelling_law_section_2"},
       {"California highway code",       "/california/codes/ca_sts_and_high_code_div_1_chap_1.5", "https://california.public.law/codes/ca_sts_and_high_code_div_1_chap_1.5"},
       {"Old-style California redirect", "/states/california/statutes/ca_penal_section_459",      "https://california.public.law/codes/ca_penal_code_section_459"},
-      {"California statutes",           "/states/california/statutes",                           "https://california.public.law/codes"}
+      {"California statutes",           "/states/california/statutes",                           "https://california.public.law/codes"},
+      {"States pages",                  "http://www.weblaws.org/states",                         "https://www.public.law"}
     ]
   }
 
