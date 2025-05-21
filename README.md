@@ -18,6 +18,12 @@ docker run --rm -it -e PORT=4000 -p 4000:4000 redirector
 mix test
 ```
 
+## To deploy to Dokku
+
+```
+git push dokku
+```
+
 
 ## Docs
 
