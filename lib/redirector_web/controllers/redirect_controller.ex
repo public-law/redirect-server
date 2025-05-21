@@ -73,7 +73,6 @@ defmodule RedirectorWeb.RedirectController do
   end
 
 
-
   def ors_chapter(conn, %{"number" => number}) do
     perm_redirect(conn, to: "#{@opl_url}/statutes/ors_chapter_#{number}")
   end
@@ -158,6 +157,10 @@ defmodule RedirectorWeb.RedirectController do
   def weblaws_old_format(conn, %{"segments" => [state]}) do
     domain = translate_state(state)
     perm_redirect(conn, to: "https://#{domain}.public.law")
+  end
+
+  def weblaws_old_format(conn, %{}) do
+    perm_redirect(conn, to: @www_url)
   end
 
 
